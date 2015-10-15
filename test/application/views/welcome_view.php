@@ -1,10 +1,5 @@
 <div class="content">
 
-	<h4><?php echo anchor('user/logout', 'Logout'); ?></h4>
-	
-       <div class="page-header">
-      </div>
-
     <div class="container">
 
       <div class="blog-header">

@@ -15,10 +15,8 @@ class User extends CI_Controller{
 	{
 		if($this->is_logged_in())
 		{
-			$string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
-			$data['islogin'] = $string;
-			$data['register'] = "";
-			$data['title']= $this->session->userdata('user_name').", welcome!";
+			$this->user_home();
+			return;
 		}
 		else
 		{
@@ -33,6 +31,15 @@ class User extends CI_Controller{
 		$this->load->view("welcome_view.php", $data);
 
 		// $this->load->view('footer_view',$data);
+	}
+	public function user_home()
+	{
+		$string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
+		$data['islogin'] = $string;
+		$data['register'] = "";
+		$data['title']= $this->session->userdata('user_name').", welcome!";
+		$this->load->view('header_view',$data);
+		$this->load->view("userhome_view.php", $data);
 	}
 	public function login()
 	{
