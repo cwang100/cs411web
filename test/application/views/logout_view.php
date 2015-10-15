@@ -1,0 +1,1 @@
+<h4><?php echo anchor('user/logout', 'Logout'); ?></h4>
