@@ -5,5 +5,10 @@ class Type_model extends CI_Model {
     {
         parent::__construct();
     }
+    public function getTop()
+    {
+    	$query = $this->db->get("Top");
+    	return $query->result();
+    }
 }
 ?>

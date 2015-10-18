@@ -13,6 +13,9 @@ class Type extends CI_Controller{
     }
 	public function top()
 	{
+		$string = $this->type_model->getTop();
+		$data['itemlist'] = $string;
+		
 		if($this->is_logged_in())
 		{
 			$string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
