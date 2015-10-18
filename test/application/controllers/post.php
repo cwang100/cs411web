@@ -42,6 +42,8 @@ class Post extends CI_Controller{
             $item_count=$this->input->post('count');
             $item_detail=$this->input->post('detail');
 
+            $item_url=$this->input->post('url');
+
             $item_owner=$this->session->userdata('user_name');
             $item_sold=FALSE;
 
@@ -53,21 +55,79 @@ class Post extends CI_Controller{
                 'detail' => $item_detail,
 
                 'owner' => $item_owner,
-                'sold' => $item_sold
+                'sold' => $item_sold,
+                'img' => $item_url
                 );
 
-    		if($this->post_model->add_item($item_info))
+            $item_style=$this->input->post('style');
+            $item_size=$this->input->post('size');
+
+            $item_id = $this->post_model->add_item($item_info);
+    		if($item_id != 0)
             {
-                $this->index();
+            echo $item_type;
+                switch ($item_type) {
+                    case 'top':
+                        $this->post_model->add_top($item_id, $item_style, $item_size);
+                        redirect('/type/top');
+                        break;
+                    case 'bottom':
+                        $this->post_model->add_bottom($item_id, $item_style, $item_size);
+                        break;
+                    case 'shoes':
+                        $this->post_model->add_shoes($item_id, $item_style, $item_size);
+                        break;
+                }
+
             }
             else
             {
-
+                echo "error";
             }
     	}
         else
         {
             $this->errorpage();
+        }
+    }
+
+    public function up_img()
+    {
+        $action = $_GET['act'];
+        if($action=='delimg'){
+            $filename = $_POST['imagename'];
+            if(!empty($filename)){
+                unlink(FCPATH."upload/".$filename);
+                echo '1';
+            }else{
+                echo '0';
+            }
+        }else{
+            $picname = $_FILES['mypic']['name'];
+            $picsize = $_FILES['mypic']['size'];
+            if ($picname != "") {
+                if ($picsize > 1024000) {
+                    echo 'Image size cannot exceed 1MB';
+                    exit;
+                }
+                // $type = strstr($picname, '.');
+                $type = pathinfo($picname, PATHINFO_EXTENSION);
+                if ($type != "gif" && $type != "jpg" && $type != "png") {
+                    echo 'Image type wrong!'.$type;
+                    exit;
+                }
+                $rand = rand(100, 999);
+                $pics = date("YmdHis") . $rand . ".".$type;
+                $pic_path = FCPATH."upload/". $pics;
+                move_uploaded_file($_FILES['mypic']['tmp_name'], $pic_path);
+            }
+            $size = round($picsize/1024,2);
+            $arr = array(
+                'name'=>$picname,
+                'pic'=>$pics,
+                'size'=>$size
+            );
+            echo json_encode($arr);
         }
     }
 }

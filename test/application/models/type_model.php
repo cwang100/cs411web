@@ -7,7 +7,10 @@ class Type_model extends CI_Model {
     }
     public function getTop()
     {
-    	$query = $this->db->get("Top");
+    	$this->db->select('name, img');
+    	$this->db->from('Item');
+    	$this->db->join('Top', 'Top.id = Item.id');
+    	$query = $this->db->get();
     	return $query->result();
     }
 }

@@ -7,7 +7,7 @@
         <!-- Page Header -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header"> type
+                <h1 class="page-header"> Top
                     <small>...</small>
                 </h1>
             </div>
@@ -25,7 +25,8 @@
 
             <div class="col-md-4 portfolio-item">
                 <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/700x400" alt="">
+                    <img class="img-responsive" src=<?php if($rows->img) { 
+                    	echo $rows->img; } else { echo "http://placehold.it/700x400"; }?> alt="">
                 </a>
                 <h3>
                     <a href="#"><?php echo $rows->name?></a>

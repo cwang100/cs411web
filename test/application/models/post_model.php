@@ -8,7 +8,17 @@ class Post_model extends CI_Model {
     public function add_item($item_info)
     {
         $this->db->insert('Item', $item_info);
-        return true;
+        return mysql_insert_id();
+    }
+    public function add_top($item_id, $item_style, $item_size)
+    {
+        echo "success";
+        $array = array(
+            'id' => $item_id,
+            'style' => $item_style,
+            'size' => $item_size
+            );
+        $this->db->insert('Top', $array);
     }
 	function login($username,$password)
     {
@@ -62,5 +72,16 @@ class Post_model extends CI_Model {
             return false;
         }
     }
+
+    public function insert_file($filename, $title)
+    {
+        $data = array(
+            'filename'      => $filename,
+            'title'         => $title
+        );
+        $this->db->insert('files', $data);
+        return $this->db->insert_id();
+    }
+
 }
 ?>
