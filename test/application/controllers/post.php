@@ -65,7 +65,6 @@ class Post extends CI_Controller{
             $item_id = $this->post_model->add_item($item_info);
     		if($item_id != 0)
             {
-            echo $item_type;
                 switch ($item_type) {
                     case 'top':
                         $this->post_model->add_top($item_id, $item_style, $item_size);

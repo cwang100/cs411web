@@ -12,7 +12,6 @@ class Post_model extends CI_Model {
     }
     public function add_top($item_id, $item_style, $item_size)
     {
-        echo "success";
         $array = array(
             'id' => $item_id,
             'style' => $item_style,
