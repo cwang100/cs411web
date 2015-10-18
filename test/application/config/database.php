@@ -41,10 +41,10 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'engr-cpanel-mysql.engr.illinois.edu';
-$db['default']['username'] = 'illinibe_web';
-$db['default']['password'] = 'illinibe_admin';
-$db['default']['database'] = 'illinibe_web1';
+$db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'test';
+$db['default']['password'] = 'test';
+$db['default']['database'] = 'test';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
