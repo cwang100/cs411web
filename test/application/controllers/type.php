@@ -11,6 +11,24 @@ class Type extends CI_Controller{
         // return isset($user);
         return ($this->session->userdata('user_name')!="");
     }
+    public function index()
+    {
+    	$item_type = $_GET['type'];
+    	$data['itemlist'] = $this->type_model->get_itemlist($item_type);
+    	$data['item_type'] = $item_type;
+
+    	if($this->is_logged_in())
+		{
+			$string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
+			$data['islogin'] = $string;
+		}
+		else
+		{
+			$data['islogin'] = $this->load->view('login_view.php','',true);
+		}
+		$this->load->view("header_view.php",$data);
+		$this->load->view("type_view.php");
+    }
 	public function top()
 	{
 		$string = $this->type_model->getTop();

@@ -31,59 +31,84 @@ class Post extends CI_Controller{
         $this->load->view("header_view.php",$data);
         $this->load->view("error_view.php");
     }
+    public function type_check($str)
+    {
+        // if($str == 'none')
+    }
     public function postitem()
     {
+        $this->load->library('form_validation');
+        $config = array(
+            array(
+                'field' => 'name',
+                'label' => 'item name',
+                'rules' => 'required'
+                ),
+            array(
+                'field' => 'count',
+                'label' => 'item count',
+                'rules' => 'required'
+                ),
+            array(
+                'field' => 'price',
+                'label' => 'item price',
+                'rules' => 'required'
+                ),
+            array(
+                'field' => 'type',
+                'label' => 'item type',
+                'rules' => 'alpha'
+                )
+            );
+        $this->form_validation->set_rules($config);
+
     	if($this->is_logged_in())
     	{
-    		$item_name=$this->input->post('name');
-            $item_type=$this->input->post('type');
-            $item_material=$this->input->post('material');
-            $item_gender=$this->input->post('gender');
-            $item_count=$this->input->post('count');
-            $item_detail=$this->input->post('detail');
-
-            $item_url=$this->input->post('url');
-
-            $item_owner=$this->session->userdata('user_name');
-            $item_sold=FALSE;
-
-            $item_info = array(
-                'name' => $item_name,
-                'material' => $item_material,
-                'gender' => $item_gender,
-                'count' => $item_count,
-                'detail' => $item_detail,
-
-                'owner' => $item_owner,
-                'sold' => $item_sold,
-                'img' => $item_url
-                );
-
-            $item_style=$this->input->post('style');
-            $item_size=$this->input->post('size');
-
-            $item_id = $this->post_model->add_item($item_info);
-    		if($item_id != 0)
+            if($this->form_validation->run() == FALSE)
             {
-                switch ($item_type) {
-                    case 'top':
-                        $this->post_model->add_top($item_id, $item_style, $item_size);
-                        redirect('/type/top');
-                        break;
-                    case 'bottom':
-                        $this->post_model->add_bottom($item_id, $item_style, $item_size);
-                        break;
-                    case 'shoes':
-                        $this->post_model->add_shoes($item_id, $item_style, $item_size);
-                        break;
-                }
-
+                $this->index();
             }
             else
             {
-                echo "error";
-            }
-    	}
+                $item_name=$this->input->post('name');
+                $item_type=$this->input->post('type');
+                $item_material=$this->input->post('material');
+                $item_gender=$this->input->post('gender');
+                $item_count=$this->input->post('count');
+                $item_detail=$this->input->post('detail');
+
+                $item_type=$this->input->post('type');
+                $item_style=$this->input->post('style');
+                $item_size=$this->input->post('size');
+                $item_price=$this->input->post('price');
+
+                $item_url=$this->input->post('url');
+
+                $item_owner=$this->session->userdata('user_name');
+                $item_sold=FALSE;
+
+                $item_info = array(
+                    'name' => $item_name,
+                    'material' => $item_material,
+                    'gender' => $item_gender,
+                    'count' => $item_count,
+                    'detail' => $item_detail,
+
+                    'owner' => $item_owner,
+                    'sold' => $item_sold,
+                    'img' => $item_url,
+
+                    'type' => $item_type,
+                    'style' => $item_style,
+                    'size' => $item_size,
+                    'price' => $item_price
+                    );
+
+                $item_id = $this->post_model->add_item($item_info);
+
+                redirect('/detail?id='.$item_id);
+        	}
+        }
         else
         {
             $this->errorpage();

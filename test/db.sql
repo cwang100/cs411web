@@ -12,33 +12,14 @@ CREATE TABLE Item (
 	material VARCHAR( 100 ) ,
 	gender VARCHAR( 20 ) ,
 	count INT( 50 ) NOT NULL ,
-	detail VARCHAR( 50 ) ,
+	detail TEXT( 50 ) ,
 	owner VARCHAR( 50 ) NOT NULL ,
 	sold BOOLEAN NOT NULL ,
 	img VARCHAR(512),
+	style VARCHAR(100),
+	size VARCHAR(50),
+	type VARCHAR(20),
+	price FLOAT,
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE Top (
-	id INT(20) NOT NULL,
-	style VARCHAR(100),
-	size VARCHAR(20),
-	PRIMARY KEY (id),
-	FOREIGN KEY (id) REFERENCES Item(id)
-);
-
-CREATE TABLE Bottom (
-	id INT(20) NOT NULL,
-	style VARCHAR(100),
-	size VARCHAR(20),
-	PRIMARY KEY (id),
-	FOREIGN KEY (id) REFERENCES Item(id)
-);
-
-CREATE TABLE Shoes (
-	id INT(20) NOT NULL,
-	style VARCHAR(100),
-	size VARCHAR(20),
-	PRIMARY KEY (id),
-	FOREIGN KEY (id) REFERENCES Item(id)
-);

@@ -1,20 +1,13 @@
 <div class="content">
-<p>This page is for top.</p>
+<p>This page is for item list.</p>
 
-	<!-- Page Content -->
-    <div class="container">
 
-        <!-- Page Header -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header"> Top
-                    <small>...</small>
+                <h1 class="page-header"> <?php echo $item_type?>
                 </h1>
             </div>
         </div>
-        <!-- /.row -->
-
-        <!-- Projects Row -->
 
         <?php
         $index = 0;
@@ -33,8 +26,6 @@
             </div>
             <?php if($index % 3 == 2){ ?>
         </div>
-        <!-- /.row -->
         <?php } $index++; } ?>
-    </div>
 
 </div>
