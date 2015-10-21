@@ -24,7 +24,7 @@ class User_model extends CI_Model {
                    );
 			}
             	$this->session->set_userdata($newdata);
-                return true;            
+                return true;
 		}
 		return false;
     }

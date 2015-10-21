@@ -13,7 +13,15 @@ class Detail_model extends CI_Model {
         // $this->db->where('User.id', 'Item.ownerid');
         $this->db->join('User', 'User.id = Item.ownerid');
         $query = $this->db->get();
-        return $query->result()[0];
+        if($query->num_rows()>0)
+        {
+            return $query->result()[0];
+        }
+        else
+        {
+            return NULL;
+        }
+        
     }
     public function buy_item($item_id, $user_id)
     {
@@ -58,6 +66,10 @@ class Detail_model extends CI_Model {
                 $query->result()[$rand_keys[2]]
                 );
         }
+    }
+    public function remove_item($item_id)
+    {
+        $this->db->delete('Item', array('id' => $item_id));
     }
 }
 ?>

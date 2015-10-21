@@ -14,18 +14,29 @@ class Detail extends CI_Controller{
     public function index()
     {
     	if($this->is_logged_in())
-		{
-			$string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
-			$data['islogin'] = $string;
-		}
-		else
-		{
-			$data['islogin'] = $this->load->view('login_view.php','',true);
-		}
+        {
+            $data['islogin'] = 1;
+            $data['user'] = $this->session->userdata('user_name');
+        }
+        else
+        {
+            $data['islogin'] = 0;
+            $data['login_form'] = $this->load->view('login_view.php','',true);
+            $data['user'] = "";
+        }
+        
         $item_id = $_GET['id'];
         $data['item_detail'] = $this->detail_model->get_item_detail($item_id);
         $data['itemlist'] = $this->detail_model->get_item_list($this->session->userdata('user_id'), $item_id);
-
+        
+        if($data['item_detail'])
+        {
+            $data['title'] = $data['item_detail']->name." | IlliniBeauty";
+        }
+        else
+        {
+            $data['title'] = "Item removed | IlliniBeauty";
+        }
 		$this->load->view("header_view.php",$data);
 		$this->load->view("detail_view.php");
     }
@@ -39,8 +50,8 @@ class Detail extends CI_Controller{
     {
         if($this->is_logged_in())
         {
-            $string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
-            $data['islogin'] = $string;
+            $data['islogin'] = 1;
+            $data['user'] = $this->session->userdata('user_name');
 
             $item_id = $_GET['id'];
             $user_id = $this->session->userdata('user_id');
@@ -49,12 +60,13 @@ class Detail extends CI_Controller{
         }
         else
         {
-            $data['islogin'] = $this->load->view('login_view.php','',true);
+            $data['islogin'] = 0;
+            $data['login_form'] = $this->load->view('login_view.php','',true);
             $data['buy_success'] = -1;
         }
 
         $this->load->view("header_view.php",$data);
-        $this->load->view("buy_view.php");
+        $this->load->view("buy_view.php",$data);
     }
     public function postitem()
     {
@@ -153,6 +165,26 @@ class Detail extends CI_Controller{
             );
             echo json_encode($arr);
         }
+    }
+    public function removed()
+    {
+        if($this->is_logged_in())
+        {
+            $data['islogin'] = 1;
+            $data['user'] = $this->session->userdata('user_name');
+
+            $item_id = $_GET['id'];
+            $this->detail_model->remove_item($item_id);
+        }
+        else
+        {
+            $data['islogin'] = 0;
+            $data['login_form'] = $this->load->view('login_view.php','',true);
+        }
+        $data['title'] = "Item removed | IlliniBeauty";
+
+        $this->load->view("header_view.php",$data);
+        $this->load->view("removed_view.php");
     }
 }
 ?>

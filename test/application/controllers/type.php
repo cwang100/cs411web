@@ -19,60 +19,18 @@ class Type extends CI_Controller{
 
     	if($this->is_logged_in())
 		{
-			$string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
-			$data['islogin'] = $string;
+			$data['islogin'] = 1;
+			$data['user'] = $this->session->userdata('user_name');
 		}
 		else
 		{
-			$data['islogin'] = $this->load->view('login_view.php','',true);
+			$data['islogin'] = 0;
+			$data['login_form'] = $this->load->view('login_view.php','',true);
 		}
+		$data['title'] = strtoupper($item_type)." | IlliniBeauty";
+
 		$this->load->view("header_view.php",$data);
 		$this->load->view("type_view.php");
     }
-	public function top()
-	{
-		$string = $this->type_model->getTop();
-		$data['itemlist'] = $string;
-		
-		if($this->is_logged_in())
-		{
-			$string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
-			$data['islogin'] = $string;
-		}
-		else
-		{
-			$data['islogin'] = $this->load->view('login_view.php','',true);
-		}
-		$this->load->view("header_view.php",$data);
-		$this->load->view("type/top.php");
-	}
-	public function bottom()
-	{
-		if($this->is_logged_in())
-		{
-			$string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
-			$data['islogin'] = $string;
-		}
-		else
-		{
-			$data['islogin'] = $this->load->view('login_view.php','',true);
-		}
-		$this->load->view("header_view.php",$data);
-		$this->load->view("type/bottom.php");
-	}
-	public function shoes()
-	{
-		if($this->is_logged_in())
-		{
-			$string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
-			$data['islogin'] = $string;
-		}
-		else
-		{
-			$data['islogin'] = $this->load->view('login_view.php','',true);
-		}
-		$this->load->view("header_view.php",$data);
-		$this->load->view("type/shoes.php");
-	}
 }
 ?>

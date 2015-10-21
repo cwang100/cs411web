@@ -4,12 +4,11 @@
 
       <div class="blog-header">
         <h1 class="blog-title margin-title">IlliniBeauty</h1>
-        
 
-              <div class="input-group">
+              <div class="col-md-12 input-group">
                 <input type="text" class="form-control" placeholder="Search for...">
                 <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">Seach</button>
+                  <button class="btn btn-default" type="button">Search</button>
                 </span>
               </div><!-- /input-group -->
 
@@ -18,6 +17,6 @@
       </div>
     </div>
 
-    <?php echo $register; ?>
+    <?php if(!$islogin) { if(isset($user_exist)) { echo '<p class="error">Username already exsist</p>'; } echo $register; } ?>
 
 </div><!--<div class="content">-->

@@ -3,12 +3,31 @@
 
 <div class="content">
 
+    <?php if(count($item_detail) == 0){ ?>
     <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header"><?php if($item_detail->name) {echo $item_detail->name;} else { echo "Item Detail";} ?>
-            </h1>
+        <div class="col-md-8">
+            <h1>The item has been removed by seller.</h1>
         </div>
     </div>
+    <?php } else { ?>
+
+    <div class="row">
+        <div class="col-md-8">
+            <h1><?php if($item_detail->name) {echo $item_detail->name;} else { echo "Item Detail";} ?></h1>
+        </div>
+        <?php if($user == $item_detail->ownername) { ?>
+        <div class="col-md-4 btn-group">
+            <a href="<?php echo base_url().'post?act=edit&id='.$item_detail->id ?>" type="button" class="btn btn-primary" aria-label="Right Align">
+                Click to <br> edit your post
+            </a>
+            <a id="del_item" type="button" class="btn btn-primary" aria-label="Right Align">
+                Detele <br> post
+            </a>
+        </div>
+        <?php } ?>
+    </div>
+
+        <hr>
 
     <div class="row">
 
@@ -54,31 +73,59 @@
                 <a href="<?php echo base_url().'detail?id='.$rows->id?>"><?php echo $rows->name?></a>
             </h4>
         </div>
-    <?php }} ?>
+    <?php } } ?>
     </div>
+
+    <?php } ?>
  
 </div>
 
 <script type="text/javascript">
-$("#buy_btn").click(function(){
-    var msg = 'Send message to the owner about availibility:';
-    msg += '<textarea rows="4" cols="50" name="comment" form="usrform">Enter Your message here ...</textarea>';
-    BootstrapDialog.show({
-        title: 'Willing to buy?',
-        message: msg,
-        buttons: [{
-            label: 'Send message first'
-        },{
-            label: 'Confirm buy item!',
-            action: function(dialog){
-                // $.ajax({
-                    // url: './detail/buy?id='+<?php echo $item_detail->id; ?>,
-                    // success: function(response) {
-                        location.href = './detail/buy?id='+<?php echo $item_detail->id; ?>;
-                    // }
-                // })
-            }
-        }]
+$(function(){
+    $("#buy_btn").click(function(){
+        var msg = 'Send message to the owner about availibility:';
+        msg += '<textarea rows="4" cols="50" name="comment" form="usrform">Enter Your message here ...</textarea>';
+        BootstrapDialog.show({
+            title: 'Willing to buy?',
+            message: msg,
+            buttons: [{
+                label: 'Send message first',
+                cssClass: "btn-primary"
+            },{
+                label: 'Confirm buy item!',
+                cssClass: "btn-primary",
+                action: function(dialog){
+                    // $.ajax({
+                        // url: './detail/buy?id='+<?php echo $item_detail->id; ?>,
+                        // success: function(response) {
+                            location.href = './detail/buy?id='+<?php echo $item_detail->id; ?>;
+                        // }
+                    // })
+                }
+            }]
+        });
     });
+    $("#del_item").click(function(){
+        BootstrapDialog.show({
+            title: "Delete your post?",
+            message: "Are you sure to remove your post?",
+            type: BootstrapDialog.TYPE_WARNING,
+            closable: false,
+            buttons: [{
+                label: "Cancel",
+                cssClass: "btn-primary",
+                action: function(dialog) {
+                    dialog.close();
+                }
+            },{
+                label: "Confirm",
+                cssClass: "btn-primary",
+                action: function(dialog){
+                    location.href = './detail/removed?id='+<?php echo $item_detail->id; ?>;
+                }
+            }]
+        });
+    });
+
 });
 </script>

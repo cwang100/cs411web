@@ -15,13 +15,16 @@ class Contact extends CI_Controller{
     {
     	if($this->is_logged_in())
 		{
-			$string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
-			$data['islogin'] = $string;
+			$data['islogin'] = 1;
+			$data['user'] = $this->session->userdata('user_name');
 		}
 		else
 		{
-			$data['islogin'] = $this->load->view('login_view.php','',true);
+			$data['islogin'] = 0;
+			$data['login_form'] = $this->load->view('login_view.php','',true);
 		}
+		$data['title'] = "Contact | IlliniBeauty";
+
 		$this->load->view("header_view.php",$data);
 		$this->load->view("contact.php");
     }

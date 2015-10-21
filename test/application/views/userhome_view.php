@@ -1,14 +1,26 @@
 <div class="content">
 
     <div class="col-md-12">
+        <div class="row">
+        <div class="col-md-9">
         <h2><?php  date_default_timezone_set('America/Chicago'); $Hour = date('G');
         if ( $Hour >= 5 && $Hour <= 11 ) {
             echo "Good Morning!";
         } else if ( $Hour >= 12 && $Hour <= 18 ) {
             echo "Good Afternoon!";
         } else if ( $Hour >= 19 || $Hour <= 4 ) {
-            echo "Good Evening!";
+            echo "Good Evening! ";
         } echo $user; ?> </h2>
+        </div>
+
+        <div class="col-md-3 pull-right">
+            <a href="<?php echo base_url()?>post" type="button" class="btn btn-primary" aria-label="Right Align">
+                Want to sell?<br>Post it!
+            </a>
+        </div>
+        </div>
+
+        <br>
 
         <ul class="nav nav-pills nav-justified">
             <li class="active">
@@ -165,18 +177,9 @@
         <div class="tab-pane" id="3b">
             <hr>
 
-            <div class="row">
-                <div class="col-md-4 portfolio-item">
-                    <div style="width:280px; height:180px;">
-                        <a href="<?php echo base_url()?>post">
-                            <img class="img_list img-responsive" src="http://placehold.it/700x400" alt="">
-                        </a>
-                    </div>
-                    <h4>Click image to post item<h4>
-            </div>
 
         <?php
-        $index = 1;
+        $index = 0;
         foreach ($postlist as $rows) {
             if($index % 3 == 0){ ?>
         <div class="row">

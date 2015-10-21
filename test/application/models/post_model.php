@@ -85,6 +85,10 @@ class Post_model extends CI_Model {
         $this->db->insert('files', $data);
         return $this->db->insert_id();
     }
-
+    public function update_item($item_info, $item_id)
+    {
+        $this->db->where('id', $item_id);
+        $this->db->update('Item', $item_info);
+    }
 }
 ?>

@@ -39,7 +39,7 @@
          
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
+          <ul class="nav navbar-nav" >
             <li class="active"><a href="<?php echo base_url()?>">Home</a></li>
 
             <li class="dropdown">
@@ -51,13 +51,20 @@
               </ul>
               <li><a href="<?php echo base_url() ?>about">About</a></li>
             <li><a href="<?php echo base_url() ?>contact">Contact</a></li>
-            
             </li>
           </ul>
-
-          <div id="logined"><?php echo $islogin; ?>
-          
-        </div>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+            <?php if($islogin){ ?>
+            <a class="btn-outline btn-circle collapsed pull-right" href="<?php echo base_url()?>user/userhome"><?php echo $user ?></a>
+            </li>
+            <li>
+              <?php echo anchor('user/logout', 'Logout'); ?>
+            </li>
+            <?php } else { echo $login_form;} ?>
+            </li>
+          </ul>
+       
           
            <!-- <button type="button" class="btn btn-lg btn-success margin-left">Log In</button> -->
            <!-- <button type="button" class="btn btn-lg btn-success" id="sign_up">Sign Up</button> -->

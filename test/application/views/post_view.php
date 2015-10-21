@@ -2,13 +2,17 @@
 
 <div class="content">
 
-  <h1>Edit Your Post</h1>
+  <h1><?php if($edit) { echo $item_detail->name;} else {echo "Edit Your Post";} ?></h1>
   <hr>
 <div class="row">
     <div class="col-md-3">
       <div class="text-center">
         <div style="width:200px; height:200px;">
-          <img id="showimg" class="img_post img-responsive" src="http://placehold.it/200" alt="avatar">
+          <?php if($edit){ ?>
+            <img id="showimg" class="img_post img-responsive" src="<?php echo $item_detail->img?>" alt="avatar">
+          <?php } else { ?>
+            <img id="showimg" class="img_post img-responsive" src="http://placehold.it/200" alt="avatar">
+            <?php }?>
         </div>
         <h6>Upload a photo for your item...</h6>
 
@@ -28,25 +32,25 @@
 
     <!-- edit form column -->
   <?php echo validation_errors('<p class="error">'); ?>
-    <?php echo form_open("post/postitem"); ?>
+    <?php if($edit){ echo form_open("post/edititem?id=".$item_id); } else {echo form_open("post/postitem"); } ?>
     <div class="col-md-9">
 
         <div class="form-group">
           <label class="col-lg-3 control-label" for="item_name">Name:</label>
           <div class="col-lg-8">
-            <input class="form-control" type="text" id="item_name" name="name" value="<?php echo set_value('name');?>" />
+            <input class="form-control" type="text" id="item_name" name="name" value="<?php if($edit){echo $item_detail->name;} else { echo set_value('name');}?>" />
           </div>
         </div>
         <div class="form-group">
           <label class="col-lg-3 control-label" for="item_price">Price:</label>
           <div class="col-lg-8">
-            <input class="form-control" type="number" step="0.01" id="item_price" name="price" value="<?php echo set_value('price');?>"  />
+            <input class="form-control" type="number" step="0.01" id="item_price" name="price" value="<?php if($edit){echo $item_detail->price;} else { echo set_value('price');}?>"  />
           </div>
         </div>
         <div class="form-group">
           <label class="col-lg-3 control-label" for="item_count">Count:</label>
           <div class="col-lg-8">
-            <input class="form-control" type="number" id="item_count" name="count" value="<?php echo set_value('count');?>" />
+            <input class="form-control" type="number" id="item_count" name="count" value="<?php if($edit){echo $item_detail->count;} else { echo set_value('count');}?>" />
           </div>
         </div>
         <div class="form-group">
@@ -75,37 +79,37 @@
         <div class="form-group">
           <label class="col-lg-3 control-label" for="item_material">Material:</label>
           <div class="col-lg-8">
-      <input class="form-control" type="text" id="item_material" name="material" placeholder="optional" value="<?php echo set_value('material');?>" />
+      <input class="form-control" type="text" id="item_material" name="material" placeholder="optional" value="<?php if($edit){echo $item_detail->material;} else { echo set_value('material');}?>" />
           </div>
         </div>
         <div class="form-group">
           <label class="col-lg-3 control-label" for="item_style">Style:</label>
           <div class="col-lg-8">
-            <input class="form-control" type="text" id="item_style" name="style" placeholder="optional" value="<?php echo set_value('style');?>"  />
+            <input class="form-control" type="text" id="item_style" name="style" placeholder="optional" value="<?php if($edit){echo $item_detail->style;} else { echo set_value('style');}?>"  />
           </div>
         </div>
         <div class="form-group">
           <label class="col-lg-3 control-label" for="item_size">Size:</label>
           <div class="col-lg-8">
-            <input class="form-control" type="text" id="item_size" name="size" placeholder="optional" value="<?php echo set_value('size');?>"   />
+            <input class="form-control" type="text" id="item_size" name="size" placeholder="optional" value="<?php if($edit){echo $item_detail->size;} else { echo set_value('size');}?>"   />
           </div>
         </div>
         <div class="form-group">
           <label class="col-lg-3 control-label" for="item_detail">Detail:</label>
           <div class="col-lg-8">
-          	<textarea class="form-control" rows="5" id="item_detail" name="detail" placeholder="optional" value="<?php echo set_value('detail');?>"></textarea>
+          	<textarea class="form-control" rows="5" id="item_detail" name="detail" placeholder="optional" value="<?php if($edit){echo $item_detail->detail;} else { echo set_value('detail');}?>"></textarea>
           </div>
         </div>
 
-    	<input style="display:none" type="text" id="item_url" name="url" value="<?php echo set_value('url');?>"  />
+    	<input style="display:none" type="text" id="item_img" name="img" value="<?php if($edit){echo $item_detail->img;} else { echo set_value('img');}?>"  />
             
 
         <div class="form-group">
           <label class="col-md-3 control-label"></label>
           <div class="col-md-8">
-            <input type="submit" class="btn btn-primary" value="Post it!">
+            <input type="submit" class="btn btn-primary" value="<?php if($edit){echo 'Update It!';} else { echo 'Post it!';}?>">
             <span></span>
-            <input type="reset" class="btn btn-default" value="Reset">
+            <input type="reset" class="btn btn-primary" value="Reset">
           </div>
         </div>
 
@@ -145,7 +149,7 @@ $(function () {
         var img = "<?php echo base_url()?>upload/"+data.pic;
         showimg.attr("src", img);
         btn.html("Choose Image");
-        $("#item_url").val(img);
+        $("#item_img").val(img);
       },
       error:function(xhr){
         btn.html("Upload Failed");

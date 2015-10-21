@@ -15,14 +15,16 @@ class User extends CI_Controller{
 	{
 		if($this->is_logged_in())
 		{
-			$this->user_home();
-			return;
+			$data['islogin'] = 1;
+			$data['user'] = $this->session->userdata('user_name');
+			$data['title'] = $this->session->userdata('user_name').", welcome! | IlliniBeauty";
 		}
 		else
 		{
-			$data['islogin'] = $this->load->view('login_view.php','',true);
+			$data['islogin'] = 0;
+			$data['login_form'] = $this->load->view('login_view.php','',true);
 			$data['register'] = $this->load->view('registration_view.php','',true);
-			$data['title']= 'Home';
+			$data['title']= 'Home | IlliniBeauty';
 		}
 
 		
@@ -32,11 +34,14 @@ class User extends CI_Controller{
 
 		// $this->load->view('footer_view',$data);
 	}
-	public function user_home()
+	public function userhome()
 	{
-		$string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
-		$data['islogin'] = $string;
-		$data['title'] = $this->session->userdata('user_name').", welcome!";
+		if(!$this->is_logged_in())
+		{
+			$this->index();
+		}
+		$data['islogin'] = 1;
+		$data['title'] = $this->session->userdata('user_name')."'s homepage | IlliniBeauty";
 		$data['user'] = $this->session->userdata('user_name');
 
 		$data['orderlist'] = $this->user_model->get_order_list($this->session->userdata('user_id'));
@@ -55,11 +60,11 @@ class User extends CI_Controller{
 	}
 	public function thank()
 	{
-		$data['title']= 'Thank';
-		$data['islogin'] = $this->load->view('login_view.php','',true);
+		$data['title']= 'Thank | IlliniBeauty';
+		$data['islogin'] = 0;
+		$data['login_form'] = $this->load->view('login_view.php','',true);
 		$this->load->view('header_view',$data);
 		$this->load->view('thank_view.php', $data);
-		// $this->load->view('footer_view',$data);
 	}
 	public function registration()
 	{
@@ -84,7 +89,14 @@ class User extends CI_Controller{
 			}
 			else
 			{
-				$this->index();
+				$data['user_exist'] = 1;
+				$data['islogin'] = 0;
+				$data['login_form'] = $this->load->view('login_view.php','',true);
+				$data['register'] = $this->load->view('registration_view.php','',true);
+				$data['title']= 'Home | IlliniBeauty';
+				
+				$this->load->view('header_view',$data);
+				$this->load->view("welcome_view.php", $data);
 			}
 		}
 	}

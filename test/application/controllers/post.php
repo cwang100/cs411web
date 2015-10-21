@@ -3,7 +3,8 @@ class Post extends CI_Controller{
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('post_model');
+        $this->load->model('post_model');
+		$this->load->model('detail_model');
 	}
 	public function is_logged_in()
     {
@@ -14,16 +15,31 @@ class Post extends CI_Controller{
     public function index()
     {
     	if($this->is_logged_in())
-		{
-			$string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
-			$data['islogin'] = $string;
-		}
-		else
-		{
-			$data['islogin'] = $this->load->view('login_view.php','',true);
-		}
+        {
+            $data['islogin'] = 1;
+            $data['user'] = $this->session->userdata('user_name');
+        }
+        else
+        {
+            $data['islogin'] = 0;
+            $data['login_form'] = $this->load->view('login_view.php','',true);
+        }
+        if(!empty($_GET))
+        {
+            $action = $_GET['act'];
+            $item_id = $_GET['id'];
+            $data['edit'] = 1;
+            $data['item_id'] = $item_id;
+            $data['item_detail'] = $this->detail_model->get_item_detail($item_id);
+            $data['title'] = "Edit ".$data['item_detail']->name." | IlliniBeauty";
+        }
+        else
+        {
+            $data['edit'] = 0;
+            $data['title'] = "Post Item | IlliniBeauty";
+        }
 		$this->load->view("header_view.php",$data);
-		$this->load->view("post_view.php");
+		$this->load->view("post_view.php",$data);
     }
     public function errorpage()
     {
@@ -84,6 +100,11 @@ class Post extends CI_Controller{
                 'label' => 'item detail',
                 'rules' => ''
                 ),
+            array(
+                'field' => 'img',
+                'label' => 'item img',
+                'rules' => ''
+                )
             );
         $this->form_validation->set_rules($config);
 
@@ -95,39 +116,7 @@ class Post extends CI_Controller{
             }
             else
             {
-                $item_name=$this->input->post('name');
-                $item_type=$this->input->post('type');
-                $item_material=$this->input->post('material');
-                $item_gender=$this->input->post('gender');
-                $item_count=$this->input->post('count');
-                $item_detail=$this->input->post('detail');
-
-                $item_type=$this->input->post('type');
-                $item_style=$this->input->post('style');
-                $item_size=$this->input->post('size');
-                $item_price=$this->input->post('price');
-
-                $item_url=$this->input->post('url');
-
-                $item_owner=$this->session->userdata('user_id');
-                $item_sold=FALSE;
-
-                $item_info = array(
-                    'name' => $item_name,
-                    'material' => $item_material,
-                    'gender' => $item_gender,
-                    'count' => $item_count,
-                    'detail' => $item_detail,
-
-                    'ownerid' => $item_owner,
-                    'sold' => $item_sold,
-                    'img' => $item_url,
-
-                    'type' => $item_type,
-                    'style' => $item_style,
-                    'size' => $item_size,
-                    'price' => $item_price
-                    );
+                $item_info = $this->get_iteminfo();
 
                 $item_id = $this->post_model->add_item($item_info);
                 $this->post_model->update_sell($item_id, $item_owner);
@@ -139,6 +128,41 @@ class Post extends CI_Controller{
         {
             $this->errorpage();
         }
+    }
+    public function get_iteminfo()
+    {
+        $item_name=$this->input->post('name');
+        $item_type=$this->input->post('type');
+        $item_material=$this->input->post('material');
+        $item_gender=$this->input->post('gender');
+        $item_count=$this->input->post('count');
+        $item_detail=$this->input->post('detail');
+
+        $item_style=$this->input->post('style');
+        $item_size=$this->input->post('size');
+        $item_price=$this->input->post('price');
+
+        $item_url=$this->input->post('url');
+
+        $item_owner=$this->session->userdata('user_id');
+
+        $item_info = array(
+            'name' => $item_name,
+            'material' => $item_material,
+            'gender' => $item_gender,
+            'count' => $item_count,
+            'detail' => $item_detail,
+
+            'ownerid' => $item_owner,
+            'img' => $item_url,
+
+            'type' => $item_type,
+            'style' => $item_style,
+            'size' => $item_size,
+            'price' => $item_price
+            );
+
+        return $item_info;
     }
 
     public function up_img()
@@ -179,6 +203,13 @@ class Post extends CI_Controller{
             );
             echo json_encode($arr);
         }
+    }
+    public function edititem()
+    {
+        $item_id = $_GET['id'];
+        $item_info = $this->get_iteminfo();
+        $this->post_model->update_item($item_info, $item_id);
+        redirect('/detail?id='.$item_id);
     }
 }
 ?>
