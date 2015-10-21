@@ -36,8 +36,12 @@ class User extends CI_Controller{
 	{
 		$string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
 		$data['islogin'] = $string;
-		$data['register'] = "";
-		$data['title']= $this->session->userdata('user_name').", welcome!";
+		$data['title'] = $this->session->userdata('user_name').", welcome!";
+		$data['user'] = $this->session->userdata('user_name');
+
+		$data['orderlist'] = $this->user_model->get_order_list($this->session->userdata('user_id'));
+		$data['postlist'] = $this->user_model->get_post_list($this->session->userdata('user_id'));
+
 		$this->load->view('header_view',$data);
 		$this->load->view("userhome_view.php", $data);
 	}

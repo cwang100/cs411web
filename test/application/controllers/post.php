@@ -55,10 +55,35 @@ class Post extends CI_Controller{
                 'rules' => 'required'
                 ),
             array(
+                'field' => 'gender',
+                'label' => 'item gender',
+                'rules' => ''
+                ),
+            array(
                 'field' => 'type',
                 'label' => 'item type',
-                'rules' => 'alpha'
-                )
+                'rules' => ''
+                ),
+            array(
+                'field' => 'material',
+                'label' => 'item material',
+                'rules' => ''
+                ),
+            array(
+                'field' => 'style',
+                'label' => 'item style',
+                'rules' => ''
+                ),
+            array(
+                'field' => 'size',
+                'label' => 'item size',
+                'rules' => ''
+                ),
+            array(
+                'field' => 'detail',
+                'label' => 'item detail',
+                'rules' => ''
+                ),
             );
         $this->form_validation->set_rules($config);
 
@@ -84,7 +109,7 @@ class Post extends CI_Controller{
 
                 $item_url=$this->input->post('url');
 
-                $item_owner=$this->session->userdata('user_name');
+                $item_owner=$this->session->userdata('user_id');
                 $item_sold=FALSE;
 
                 $item_info = array(
@@ -94,7 +119,7 @@ class Post extends CI_Controller{
                     'count' => $item_count,
                     'detail' => $item_detail,
 
-                    'owner' => $item_owner,
+                    'ownerid' => $item_owner,
                     'sold' => $item_sold,
                     'img' => $item_url,
 
@@ -105,7 +130,8 @@ class Post extends CI_Controller{
                     );
 
                 $item_id = $this->post_model->add_item($item_info);
-
+                $this->post_model->update_sell($item_id, $item_owner);
+                
                 redirect('/detail?id='.$item_id);
         	}
         }

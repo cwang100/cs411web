@@ -13,13 +13,27 @@ CREATE TABLE Item (
 	gender VARCHAR( 20 ) ,
 	count INT( 50 ) NOT NULL ,
 	detail TEXT( 50 ) ,
-	owner VARCHAR( 50 ) NOT NULL ,
+	ownerid int( 20 ) NOT NULL ,
 	sold BOOLEAN NOT NULL ,
 	img VARCHAR(512),
 	style VARCHAR(100),
 	size VARCHAR(50),
 	type VARCHAR(20),
 	price FLOAT,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	FOREIGN KEY (ownerid) REFERENCES User(id)
 );
 
+CREATE TABLE Buy (
+	itemid int(20) NOT NULL,
+	buyerid int(20) NOT NULL,
+	buydate timestamp NOT NULL default CURRENT_TIMESTAMP,
+	PRIMARY KEY (itemid, buyerid)
+);
+
+CREATE TABLE Sell (
+	itemid int(20) NOT NULL,
+	posterid int(20) NOT NULL,
+	postdate timestamp NOT NULL default CURRENT_TIMESTAMP,
+	PRIMARY KEY (itemid, posterid)
+);

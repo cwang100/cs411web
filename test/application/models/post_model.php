@@ -10,6 +10,10 @@ class Post_model extends CI_Model {
         $this->db->insert('Item', $item_info);
         return mysql_insert_id();
     }
+    public function update_sell($item_id, $user_id)
+    {
+        $this->db->insert('Sell', array('itemid' => $item_id, 'posterid' => $user_id));
+    }
     public function add_top($item_id, $item_style, $item_size)
     {
         $array = array(

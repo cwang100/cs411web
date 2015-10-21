@@ -57,5 +57,23 @@ class User_model extends CI_Model {
             return false;
         }
     }
+    public function get_order_list($user_id)
+    {
+        $this->db->select('Item.id AS id, Item.name AS name, Item.img AS img');
+        $this->db->from('Buy');
+        $this->db->where('Buy.buyerid', $user_id);
+        $this->db->join('Item', 'Buy.itemid = Item.id');
+        $query = $this->db->get();
+        return $query->result();
+    }
+    public function get_post_list($user_id)
+    {
+        $this->db->select('Item.id AS id, Item.name AS name, Item.img AS img');
+        $this->db->from('Sell');
+        $this->db->where('Sell.posterid', $user_id);
+        $this->db->join('Item', 'Sell.itemid = Item.id');
+        $query = $this->db->get();
+        return $query->result();
+    }
 }
 ?>

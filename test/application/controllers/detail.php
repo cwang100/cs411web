@@ -34,6 +34,26 @@ class Detail extends CI_Controller{
         $this->load->view("header_view.php",$data);
         $this->load->view("error_view.php");
     }
+    public function buy()
+    {
+        if($this->is_logged_in())
+        {
+            $string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
+            $data['islogin'] = $string;
+        }
+        else
+        {
+            $data['islogin'] = $this->load->view('login_view.php','',true);
+        }
+        $item_id = $_GET['id'];
+        $user_id = $this->session->userdata('user_id');
+        $data['item_detail'] = $this->detail_model->get_item_detail($item_id);
+
+        $data['buy_success'] = $this->detail_model->buy_item($item_id, $user_id);
+
+        $this->load->view("header_view.php",$data);
+        $this->load->view("buy_view.php");
+    }
     public function postitem()
     {
     	if($this->is_logged_in())

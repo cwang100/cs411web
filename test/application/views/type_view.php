@@ -1,7 +1,4 @@
 <div class="content">
-<p>This page is for item list.</p>
-
-
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header"> <?php echo $item_type?>
@@ -17,9 +14,11 @@
         	<?php } ?>
 
             <div class="col-md-4 portfolio-item">
+                <div style="width:280px; height:180px;">
                 <a href="<?php echo base_url().'detail?id='.$rows->id?>">
-                    <img class="img-responsive" src=<?php if($rows->img) { echo $rows->img; } else { echo "http://placehold.it/700x400"; }?> alt="">
+                    <img class="img_list img-responsive" src=<?php if($rows->img) { echo $rows->img; } else { echo "http://placehold.it/700x400"; }?> alt="">
                 </a>
+            </div>
                 <h3>
                     <a href="<?php echo base_url().'detail?id='.$rows->id?>"><?php echo $rows->name?></a>
                 </h3>

@@ -13,16 +13,16 @@
     <div class="row">
 
         <div class="col-md-8">
-            <img class="img-responsive" src=<?php if($item_detail->img) { echo $item_detail->img; } else { echo "http://placehold.it/750x500";} ?> alt="">
+            <img class="img_detail img-responsive" src=<?php if($item_detail->img) { echo $item_detail->img; } else { echo "http://placehold.it/750x500";} ?> alt="">
         </div>
 
         <div class="col-md-4">
-            <h4>Status: <span style="color:red;font-size:24px;"><?php if($item_detail->sold) echo "Sold"; else echo "Still Available!"; ?></span></h4>
+            <h4>Status: <span style="color:red;font-size:24px;"><?php if(!$item_detail->count) echo "Sold"; else echo "Still Available!"; ?></span></h4>
             <h4>Price: <span style="color:red;font-size:24px;"><?php echo $item_detail->price." USD"; ?></span></h4>
             <ul>
                 <li>Gender: <?php echo $item_detail->gender?></li>
                 <li>Material: <?php echo $item_detail->material?></li>
-                <li>Owner: <?php echo $item_detail->owner?></li>
+                <li>Owner: <?php echo $item_detail->ownername?></li>
                 <li>Remaining: <?php echo $item_detail->count?></li>
             </ul>
             <h4>Owner's comment:</h4>
@@ -80,7 +80,15 @@ $("#buy_btn").click(function(){
         buttons: [{
             label: 'Send message first'
         },{
-            label: 'Confirm buy item!'
+            label: 'Confirm buy item!',
+            action: function(dialog){
+                // $.ajax({
+                    // url: './detail/buy?id='+<?php echo $item_detail->id; ?>,
+                    // success: function(response) {
+                        location.href = './detail/buy?id='+<?php echo $item_detail->id; ?>;
+                    // }
+                // })
+            }
         }]
     });
 });
