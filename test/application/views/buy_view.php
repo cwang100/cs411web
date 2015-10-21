@@ -8,6 +8,10 @@
 
 <p>You cannot buy the item you posted! </p>
 
+<?php } elseif($buy_success == -1) { ?>
+
+<p>You need to log in fitst!</p>
+
 <?php } else { ?>
 
 <p>Sorry, the item <?php echo $item_detail->name; ?> is sold out! </p>

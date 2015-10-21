@@ -22,7 +22,7 @@
             <ul>
                 <li>Gender: <?php echo $item_detail->gender?></li>
                 <li>Material: <?php echo $item_detail->material?></li>
-                <li>Owner: <?php echo $item_detail->ownername?></li>
+                <li>Seller: <?php echo $item_detail->ownername?></li>
                 <li>Remaining: <?php echo $item_detail->count?></li>
             </ul>
             <h4>Owner's comment:</h4>
@@ -35,37 +35,26 @@
 
     </div>
 
-
     <div class="row">
-
         <div class="col-lg-12">
             <h3 class="page-header">Seller's other items</h3>
         </div>
 
-        <div class="col-sm-3 col-xs-6">
-            <a href="#">
-                <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
-            </a>
-        </div>
+    <?php if(count($itemlist) == 0){ ?>
+        <p> There is no other item posted by the seller </p>
+    <?php } else { foreach ($itemlist as $rows) { ?>
 
-        <div class="col-sm-3 col-xs-6">
-            <a href="#">
-                <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
+        <div class="col-md-4 portfolio-item">
+            <div style="width:280px; height:180px;">
+            <a href="<?php echo base_url().'detail?id='.$rows->id?>">
+                <img class="img_list img-responsive" src=<?php if($rows->img) { echo $rows->img; } else { echo "http://placehold.it/700x400"; }?> alt="">
             </a>
+            </div>
+            <h4>
+                <a href="<?php echo base_url().'detail?id='.$rows->id?>"><?php echo $rows->name?></a>
+            </h4>
         </div>
-
-        <div class="col-sm-3 col-xs-6">
-            <a href="#">
-                <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
-            </a>
-        </div>
-
-        <div class="col-sm-3 col-xs-6">
-            <a href="#">
-                <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
-            </a>
-        </div>
-
+    <?php }} ?>
     </div>
  
 </div>

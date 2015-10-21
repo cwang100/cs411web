@@ -38,5 +38,26 @@ class Detail_model extends CI_Model {
             return 0;
         }
     }
+    public function get_item_list($user_id, $item_id)
+    {
+        $this->db->select('id, name, img');
+        $this->db->from('Item');
+        $this->db->where('ownerid', $user_id);
+        $this->db->where('id !=', $item_id);
+        $query = $this->db->get();
+        if($query->num_rows() < 3)
+        {
+            return $query->result();
+        }
+        else
+        {
+            $rand_keys = array_rand($query->result(), 3);
+            return array(
+                $query->result()[$rand_keys[0]],
+                $query->result()[$rand_keys[1]],
+                $query->result()[$rand_keys[2]]
+                );
+        }
+    }
 }
 ?>

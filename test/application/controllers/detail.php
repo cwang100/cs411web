@@ -24,6 +24,7 @@ class Detail extends CI_Controller{
 		}
         $item_id = $_GET['id'];
         $data['item_detail'] = $this->detail_model->get_item_detail($item_id);
+        $data['itemlist'] = $this->detail_model->get_item_list($this->session->userdata('user_id'), $item_id);
 
 		$this->load->view("header_view.php",$data);
 		$this->load->view("detail_view.php");
@@ -40,16 +41,17 @@ class Detail extends CI_Controller{
         {
             $string = $this->session->userdata('user_name').$this->load->view('logout_view.php','',true);
             $data['islogin'] = $string;
+
+            $item_id = $_GET['id'];
+            $user_id = $this->session->userdata('user_id');
+            $data['item_detail'] = $this->detail_model->get_item_detail($item_id);
+            $data['buy_success'] = $this->detail_model->buy_item($item_id, $user_id);
         }
         else
         {
             $data['islogin'] = $this->load->view('login_view.php','',true);
+            $data['buy_success'] = -1;
         }
-        $item_id = $_GET['id'];
-        $user_id = $this->session->userdata('user_id');
-        $data['item_detail'] = $this->detail_model->get_item_detail($item_id);
-
-        $data['buy_success'] = $this->detail_model->buy_item($item_id, $user_id);
 
         $this->load->view("header_view.php",$data);
         $this->load->view("buy_view.php");
