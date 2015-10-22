@@ -8,7 +8,7 @@
               <div class="col-md-12 input-group">
                 <input type="text" class="form-control" placeholder="Search for...">
                 <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">Search</button>
+                  <button class="btn btn-primary" type="button">Search</button>
                 </span>
               </div><!-- /input-group -->
 

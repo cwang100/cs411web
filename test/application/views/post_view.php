@@ -101,7 +101,7 @@
           </div>
         </div>
 
-    	<input style="display:none" type="text" id="item_img" name="img" value="<?php if($edit){echo $item_detail->img;} else { echo set_value('img');}?>"  />
+    	<input style="display:none" type="text" id="item_img" name="img"   />
             
 
         <div class="form-group">

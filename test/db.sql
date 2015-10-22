@@ -14,7 +14,6 @@ CREATE TABLE Item (
 	count INT( 50 ) NOT NULL ,
 	detail TEXT( 50 ) ,
 	ownerid int( 20 ) NOT NULL ,
-	sold BOOLEAN NOT NULL ,
 	img VARCHAR(512),
 	style VARCHAR(100),
 	size VARCHAR(50),

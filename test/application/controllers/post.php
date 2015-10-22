@@ -117,6 +117,7 @@ class Post extends CI_Controller{
             else
             {
                 $item_info = $this->get_iteminfo();
+                $item_owner = $this->session->userdata('user_id');
 
                 $item_id = $this->post_model->add_item($item_info);
                 $this->post_model->update_sell($item_id, $item_owner);
@@ -142,7 +143,7 @@ class Post extends CI_Controller{
         $item_size=$this->input->post('size');
         $item_price=$this->input->post('price');
 
-        $item_url=$this->input->post('url');
+        $item_img=$this->input->post('img');
 
         $item_owner=$this->session->userdata('user_id');
 
@@ -154,7 +155,7 @@ class Post extends CI_Controller{
             'detail' => $item_detail,
 
             'ownerid' => $item_owner,
-            'img' => $item_url,
+            'img' => $item_img,
 
             'type' => $item_type,
             'style' => $item_style,
