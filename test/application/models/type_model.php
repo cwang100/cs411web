@@ -21,5 +21,20 @@ class Type_model extends CI_Model {
     	$query = $this->db->get();
     	return $query->result();
     }
+    public function get_item($q)
+    {
+        $this->db->select('*');
+        $this->db->from('Item');
+        $this->db->like('name',$q);
+        $query = $this->db->get();
+        $result = array(
+            "baseurl" => base_url(),
+            "qresult" => $query->result()
+            );
+        if($query->num_rows > 0)
+        {
+            echo json_encode($result);
+        }
+    }
 }
 ?>

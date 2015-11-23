@@ -32,5 +32,12 @@ class Type extends CI_Controller{
 		$this->load->view("header_view.php",$data);
 		$this->load->view("type_view.php");
     }
+    public function get_items()
+    {
+    	if (!empty($q = strtolower($_POST['query'])))
+    	{
+			$this->type_model->get_item($q);
+    	}
+    }
 }
 ?>
