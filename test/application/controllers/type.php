@@ -34,7 +34,8 @@ class Type extends CI_Controller{
     }
     public function get_items()
     {
-    	if (!empty($q = strtolower($_POST['query'])))
+    	$q = strtolower($_POST['query']);
+    	if (!empty($q))
     	{
 			$this->type_model->get_item($q);
     	}

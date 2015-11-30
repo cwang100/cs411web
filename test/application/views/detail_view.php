@@ -90,7 +90,11 @@ $(function(){
             message: msg,
             buttons: [{
                 label: 'Send message first',
-                cssClass: "btn-primary"
+                cssClass: "btn-primary",
+                action: function(dialog) {
+                    // send_msg();
+                    dialog.close();
+                }
             },{
                 label: 'Confirm buy item!',
                 cssClass: "btn-primary",
@@ -126,6 +130,8 @@ $(function(){
             }]
         });
     });
-
+    // function send_msg (msg) {
+        // body...
+    // }
 });
 </script>

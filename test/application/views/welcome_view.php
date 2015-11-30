@@ -18,6 +18,10 @@
         <div id="search_result">
 
         </div>
+
+        <div id="recomm">
+          <?php if($islogin and $recomm){ foreach($recomm as $rows){ echo $rows; ?></br><?php } }?>
+        </div>
       </div>
     </div>
 
@@ -26,12 +30,13 @@
 </div><!--<div class="content">-->
 
 <script type="text/javascript">
+var baseurl = "<?php echo $baseurl?>";
 $("#search_complete").keyup(function(){
   var keyword = $("#search_complete").val();
   if(keyword !== ''){
         $.ajax({
             type: "POST",
-            url: "./type/get_items",
+            url: baseurl + "type/get_items",
             data: { query: keyword },
             cache: false,
             success: function(data){

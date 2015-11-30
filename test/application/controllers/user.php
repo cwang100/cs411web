@@ -18,6 +18,7 @@ class User extends CI_Controller{
 			$data['islogin'] = 1;
 			$data['user'] = $this->session->userdata('user_name');
 			$data['title'] = $this->session->userdata('user_name').", welcome! | IlliniBeauty";
+			$data['recomm'] = $this->user_model->get_recom($this->session->userdata('user_id'));
 		}
 		else
 		{
@@ -27,6 +28,7 @@ class User extends CI_Controller{
 			$data['title']= 'Home | IlliniBeauty';
 		}
 
+		$data['baseurl'] = base_url();
 		
 		$this->load->view('header_view',$data);
 

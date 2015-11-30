@@ -75,5 +75,70 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+    public function get_max_buydate($user_id)
+    {
+        $this->db->select_max('buydate');
+        $this->db->from('Buy');
+        $this->db->where('Buy.buyerid', $user_id);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function get_recom($user_id)
+    {
+        // get buy history
+        $buydate = $this->get_max_buydate($user_id)[0]->buydate;
+
+        $this->db->select('*');
+        $this->db->from('Buy');
+        $this->db->where('Buy.buydate', $buydate);
+        $this->db->join('Item', 'Buy.itemid = Item.id');
+        $query = $this->db->get();
+        if($query->num_rows() > 0)
+        {
+            $item = $query->result()[0];
+            // return $itemid;
+
+            // get all item
+            $this->db->select('*');
+            $this->db->from('Item');
+            $this->db->where('ownerid !=', $user_id);
+            $this->db->where('count !=', 0);
+            $query = $this->db->get();
+            // return $query->result();
+
+            $recomm_list = array();
+            foreach ($query->result() as $rows) {
+                $score = 0;
+                if($rows->material != $item->material)
+                {
+                    $score = $score + 1;
+                }
+                if($rows->gender != $item->gender)
+                {
+                    $score = $score + 20;
+                }
+                if($rows->style != $item->style)
+                {
+                    $score = $score + 5;
+                }
+                if($rows->type != $item->type)
+                {
+                    $score = $score + 10;
+                }
+                $score = $score + abs(1 - ($rows->size / ($item->size+1))) * 10;
+                $score = $score + abs(1 - ($rows->price / ($item->price+1))) * 10;
+
+                $recomm_list[$rows->id] = $score;
+            }
+            asort($recomm_list);
+
+            return $recomm_list;
+
+            // calculate score
+            // sort
+            // return recomm items
+        }
+    }
 }
 ?>
