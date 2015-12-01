@@ -49,6 +49,8 @@ class User extends CI_Controller{
 		$data['orderlist'] = $this->user_model->get_order_list($this->session->userdata('user_id'));
 		$data['postlist'] = $this->user_model->get_post_list($this->session->userdata('user_id'));
 
+		$data['msg_list'] = $this->user_model->get_msg_list($this->session->userdata('user_id'));
+
 		$this->load->view('header_view',$data);
 		$this->load->view("userhome_view.php", $data);
 	}
@@ -113,6 +115,28 @@ class User extends CI_Controller{
 		$this->session->unset_userdata($newdata );
 		$this->session->sess_destroy();
 		$this->index();
+	}
+
+	public function sendmsg()
+	{
+		$msg = $_POST['msg'];
+		$recverid = $_POST['recver'];
+		if($recverid != $this->session->userdata('user_id'))
+		{
+			$this->user_model->add_msg($msg, $recverid);
+		}
+		else
+		{
+			echo 0;
+		}
+	}
+	public function checkmsg()
+	{
+		$this->user_model->check_msg($this->session->userdata('user_id'));
+	}
+	public function set_msg_read()
+	{
+		$this->user_model->set_msg_read($this->session->userdata('user_id'));
 	}
 }
 ?>

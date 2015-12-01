@@ -140,5 +140,53 @@ class User_model extends CI_Model {
             // return recomm items
         }
     }
+    public function add_msg($msg, $recverid)
+    {
+        $data=array(
+            'msg'=>$msg,
+            'senderid'=>$this->session->userdata('user_id'),
+            'recverid'=>$recverid
+            );
+        $this->db->insert('Msg', $data);
+        echo 1;
+    }
+    public function check_msg($user_id)
+    {
+        $this->db->select('*');
+        $this->db->from('Msg');
+        $this->db->where('recverid', $user_id);
+        $this->db->where('readed', 0);
+        $query = $this->db->get();
+        if($query->num_rows() > 0)
+        {
+            echo 1;
+        }
+        else
+        {
+            echo 0;
+        }
+    }
+    public function get_msg_list($user_id)
+    {
+        $this->db->from('Msg');
+        $this->db->where('recverid', $user_id);
+        $this->db->or_where('senderid', $user_id);
+        $this->db->join('User AS User1', 'User1.id = Msg.recverid');
+        $this->db->join('User AS User2', 'User2.id = Msg.senderid');
+        $this->db->select('User1.username AS recvername, User2.username AS sendername, Msg.msg, Msg.postertime, Msg.msgid');
+        $query = $this->db->get();
+        foreach ($query->result() as $rows) {
+            $this->db->where('msgid', $rows->msgid);
+            $this->db->where('recverid', $user_id);
+            $this->db->update('Msg', array('readed' => 1));
+        }
+        return $query->result();
+    }
+    public function set_msg_read($user_id)
+    {
+        // $this->db->where('msgid', $rows->msgid);
+        // $this->db->where('recverid', $user_id);
+        // $this->db->update('Msg', array('readed' => 1));
+    }
 }
 ?>

@@ -14,6 +14,7 @@
 
 <link href="<?php echo base_url();?>css/style.css" rel="stylesheet">
 
+
 <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
 <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 <script src="<?php echo base_url();?>css/js/ie-emulation-modes-warning.js"></script>
@@ -57,6 +58,9 @@
             <?php if($islogin){ ?>
             <a class="btn-outline btn-circle collapsed pull-right" href="<?php echo base_url()?>user/userhome"><?php echo $user ?></a>
             </li>
+             <li id="newmsg">
+              
+            </li>
             <li>
               <?php echo anchor('user/logout', 'Logout'); ?>
             </li>
@@ -70,3 +74,14 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+
+<script type="text/javascript">
+$.ajax({
+    url: "<?php echo base_url();?>user/checkmsg",
+    success: function (data) {
+      if(data == 1){
+        $("#newmsg").html("<a href='<?php echo base_url();?>user/userhome'>new msg</a>")
+      }
+    }
+});
+</script>

@@ -23,10 +23,10 @@
         <br>
 
         <ul class="nav nav-pills nav-justified">
-            <li class="active">
+            <!-- <li class="active">
                 <a href="#1b" data-toggle="tab">Profile</a>
-            </li>
-            <li><a href="#2b" data-toggle="tab">Order History</a>
+            </li> -->
+            <li class="active"><a href="#2b" data-toggle="tab">Order History</a>
             </li>
             <li><a href="#3b" data-toggle="tab">Your Posts</a>
             </li>
@@ -36,10 +36,9 @@
 
 
         <div class="tab-content clearfix">
-            <div class="tab-pane active" id="1b">
+            <!-- <div class="tab-pane active" id="1b">
                 <hr>
                 <div class="row">
-                    <!-- left column -->
                     <div class="col-md-3">
                         <div class="text-center">
                             <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
@@ -49,7 +48,6 @@
                         </div>
                     </div>
 
-                    <!-- edit form column -->
                     <div class="col-md-9 personal-info">
 
                         <h2>Personal info</h2>
@@ -116,10 +114,10 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
-            <div class="tab-pane" id="2b">
+            <div class="tab-pane active" id="2b">
                 <hr>
 
                 <?php $index=0 ; foreach ($orderlist as $rows) { if($index % 3==0 ){ ?>
@@ -142,7 +140,7 @@
 
 
             <!-- Pagination -->
-            <div class="row text-center">
+            <!-- <div class="row text-center">
                 <div class="col-lg-12">
                     <ul class="pagination">
                         <li>
@@ -168,7 +166,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> -->
             <!-- /.row -->
 
         </div>
@@ -203,7 +201,7 @@
 
             
             <!-- Pagination -->
-            <div class="row text-center">
+            <!-- <div class="row text-center">
                 <div class="col-lg-12">
                     <ul class="pagination">
                         <li>
@@ -229,7 +227,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> -->
             <!-- /.row -->
         </div>
 
@@ -240,9 +238,6 @@
         <div class="tab-pane" id="4b">
             <hr>
 
-            <p>This is for message part.</p>
-
-
 
             <div class="col-md-12 panel panel-default">
                 <!-- Default panel contents -->
@@ -252,31 +247,22 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Sent/Received</th>
-                            <th>From</th>
-                            <th>Preview</th>
+                            <th>Time</th>
+                            <th>Sender</th>
+                            <th>Recver</th>
+                            <th>Message</th>
 
                         </tr>
                     </thead>
                     <tbody>
+                        <?php if($msg_list) {foreach ($msg_list as $rows) { ?>
                         <tr>
-                            <th scope="row">Sent</th>
-
-                            <td>Otto</td>
-                            <td>i like this dress....</td>
+                            <th scope="row"><?php echo $rows->postertime?></th>
+                            <td><?php echo $rows->sendername?></td>
+                            <td><?php echo $rows->recvername?></td>
+                            <td><?php echo $rows->msg; ?></td>
                         </tr>
-                        <tr>
-                            <th scope="row">Received</th>
-
-                            <td>Thornton</td>
-                            <td>Could you lower the price ...</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Received</th>
-
-                            <td>the Bird</td>
-                            <td>muhiahiahiahiahia....</td>
-                        </tr>
+                        <?php }}?>
                     </tbody>
                 </table>
             </div>

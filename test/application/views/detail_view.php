@@ -84,7 +84,7 @@
 $(function(){
     $("#buy_btn").click(function(){
         var msg = 'Send message to the owner about availibility:';
-        msg += '<textarea rows="4" cols="50" name="comment" form="usrform">Enter Your message here ...</textarea>';
+        msg += '<textarea id="msg" rows="4" cols="50" name="comment" form="usrform">Enter Your message here ...</textarea>';
         BootstrapDialog.show({
             title: 'Willing to buy?',
             message: msg,
@@ -92,7 +92,7 @@ $(function(){
                 label: 'Send message first',
                 cssClass: "btn-primary",
                 action: function(dialog) {
-                    // send_msg();
+                    send_msg($("#msg").val());
                     dialog.close();
                 }
             },{
@@ -130,8 +130,23 @@ $(function(){
             }]
         });
     });
-    // function send_msg (msg) {
-        // body...
-    // }
+    function send_msg (msg) {
+        $.ajax({
+            type: "POST",
+            url: "./user/sendmsg",
+            data: {
+                msg: msg,
+                recver: "<?php echo $item_detail->ownerid ?>"
+            },
+            success: function (data) {
+                if(data == 1){
+                    alert("Msg sent success!");
+                }
+                else{
+                    alert("Cannot send msg to yourself!");
+                }
+            }
+        });
+    }
 });
 </script>
