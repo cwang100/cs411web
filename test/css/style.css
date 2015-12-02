@@ -98,6 +98,7 @@ input{
 }
 
 .img_list{height: auto; width: auto; max-width: 280px; max-height: 180px;}
+.img_recomm{height: auto; width: auto; max-width: 210px; max-height: 135px;}
 .img_detail{height: auto; width: auto; max-width: 590px; max-height: 400px;}
 
 .btn{position: relative;overflow: hidden;margin-right: 4px;display:inline-block; 

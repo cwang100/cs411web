@@ -83,7 +83,6 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
-
     public function get_recom($user_id)
     {
         // get buy history
@@ -107,7 +106,8 @@ class User_model extends CI_Model {
             $query = $this->db->get();
             // return $query->result();
 
-            $recomm_list = array();
+            // $recomm_score = array();
+            $tmp_list = $query->result();
             foreach ($query->result() as $rows) {
                 $score = 0;
                 if($rows->material != $item->material)
@@ -129,15 +129,47 @@ class User_model extends CI_Model {
                 $score = $score + abs(1 - ($rows->size / ($item->size+1))) * 10;
                 $score = $score + abs(1 - ($rows->price / ($item->price+1))) * 10;
 
-                $recomm_list[$rows->id] = $score;
+                // $recomm_score[$rows->id] = $score;
+                $rows->score = $score;
             }
-            asort($recomm_list);
+            usort($tmp_list, function($a, $b){
+                return $a->score - $b->score;
+            });
 
+            $tmp_list = array_slice($tmp_list, 0, 4);
+            $recomm_list = array();
+            $recomm_list['isrecom'] = 1;
+            $recomm_list['list'] = $tmp_list;
             return $recomm_list;
-
-            // calculate score
-            // sort
-            // return recomm items
+        }
+        else
+        {
+            $this->db->select('*');
+            $this->db->from('Item');
+            // $this->db->where('ownerid !=', $user_id);
+            // $this->db->where('count !=', 0);
+            $query = $this->db->get();
+            $num_item = sizeof($query->result());
+            if($num_item > 4)
+            {
+                $num_item = 4;
+            }
+            $rand_keys = array_rand($query->result(), $num_item);
+            $tmp_list = array();
+            for ($i=0; $i < $num_item; $i++)
+            {
+                $tmp_list[] = $query->result()[$rand_keys[$i]];
+            }
+            // $tmp_list = array(
+            //     $query->result()[$rand_keys[0]],
+            //     $query->result()[$rand_keys[1]],
+            //     $query->result()[$rand_keys[2]],
+            //     $query->result()[$rand_keys[3]]
+            //     );
+            $recomm_list = array();
+            $recomm_list['isrecom'] = 0;
+            $recomm_list['list'] = $tmp_list;
+            return $recomm_list;
         }
     }
     public function add_msg($msg, $recverid)

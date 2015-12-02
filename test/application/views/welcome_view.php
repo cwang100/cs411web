@@ -19,9 +19,30 @@
 
         </div>
 
-        <div id="recomm">
-          <?php if($islogin and $recomm){ foreach($recomm as $rows){ echo $rows; ?></br><?php } }?>
+        <!-- <div class="row"> -->
+        <div class="col-lg-12">
+          <?php if(isset($recomm)){ ?>
+            <h3 class="page-header">Items you may interest:</h3>
+            <?php }?>
         </div>
+
+          <?php if(isset($recomm)){ if($recomm['isrecom']== 0) { ?>
+          <p>You haven't bought anything, try buy something to get recomandation!</p>
+          <p>Here are some random items:</p>
+          <?php }  foreach ($recomm['list'] as $rows) { ?>
+
+              <div class="col-md-3 portfolio-item">
+                  <div style="width:210px; height:135px;">
+                  <a href="<?php echo base_url().'detail?id='.$rows->id?>">
+                      <img class="img_recomm img-responsive" src=<?php if($rows->img) { echo $rows->img; } else { echo "http://placehold.it/700x400"; }?> alt="">
+                  </a>
+                  </div>
+                  <h4>
+                      <a href="<?php echo base_url().'detail?id='.$rows->id?>"><?php echo $rows->name?></a>
+                  </h4>
+              </div>
+          <?php } }?>
+          <!-- </div> -->
       </div>
     </div>
 

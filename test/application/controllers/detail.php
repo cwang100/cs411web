@@ -27,7 +27,7 @@ class Detail extends CI_Controller{
         
         $item_id = $_GET['id'];
         $data['item_detail'] = $this->detail_model->get_item_detail($item_id);
-        $data['itemlist'] = $this->detail_model->get_item_list($this->session->userdata('user_id'), $item_id);
+        $data['itemlist'] = $this->detail_model->get_item_list($data['item_detail']->ownerid, $item_id);
         $data['userid'] = $this->session->userdata('user_id');
         
         if($data['item_detail'])

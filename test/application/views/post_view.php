@@ -57,9 +57,9 @@
           <label class="col-lg-3 control-label" for="item_gender">Gender:</label>
           <div class="col-lg-8">
             <div class="ui-select">
-              <select id="gender" class="form-control" name="gender" value="<?php echo set_value('gender');?>">
-                <option value="female">Women</option>
-                <option value="male">Man</option>
+              <select id="gender" class="form-control" name="gender">
+                <option value="female" <?php if($item_detail->gender == "female") echo "selected"; ?> >Women</option>
+                <option value="male" <?php if($item_detail->gender == "male") echo "selected"; ?> >Man</option>
               </select>
             </div>
           </div>
@@ -69,9 +69,9 @@
           <div class="col-lg-8">
             <div class="ui-select">
               <select id="clothes-style" class="form-control" name="type" value="<?php echo set_value('type');?>">
-                <option value="top">Top</option>
-                <option value="bottom">Bottom</option>
-                <option value="shoes">Shoes</option>
+                <option value="top"<?php if($item_detail->type == "top") echo "selected" ?> >Top</option>
+                <option value="bottom"<?php if($item_detail->type == "bottom") echo "selected" ?> >Bottom</option>
+                <option value="shoes"<?php if($item_detail->type == "shoes") echo "selected" ?> >Shoes</option>
               </select>
             </div>
           </div>
@@ -97,7 +97,7 @@
         <div class="form-group">
           <label class="col-lg-3 control-label" for="item_detail">Detail:</label>
           <div class="col-lg-8">
-          	<textarea class="form-control" rows="5" id="item_detail" name="detail" placeholder="optional" value="<?php if($edit){echo $item_detail->detail;} else { echo set_value('detail');}?>"></textarea>
+          	<textarea class="form-control" rows="5" id="item_detail" name="detail" placeholder="optional" ><?php if($edit){echo $item_detail->detail;} ?></textarea>
           </div>
         </div>
 
@@ -121,6 +121,7 @@
 
 <script type="text/javascript">
 $(function () {
+  $("#item_img").val($('#showimg').attr("src"));
   var bar = $('.bar');
   var percent = $('.percent');
   var showimg = $('#showimg');

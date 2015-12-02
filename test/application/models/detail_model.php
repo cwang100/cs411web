@@ -34,6 +34,7 @@ class Detail_model extends CI_Model {
         if($item_count && $item_ownerid != $this->session->userdata('user_id'))
         {
             $item_count--;
+            $this->db->where('id',$item_id);
             $this->db->update('Item', array('count' => $item_count));
             $this->db->insert('Buy', array('itemid' => $item_id, 'buyerid' => $user_id));
             return 1;
